@@ -1,6 +1,8 @@
 'use client'
 
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
 
 const AddProduct = () => {
   const [image, setImage] = useState(false)
@@ -18,9 +20,37 @@ const AddProduct = () => {
     setData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const onSubmitHandler = async (e) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+    formData.append('title', data.title)
+    formData.append('description', data.description)
+    formData.append('category', data.category)
+    formData.append('author', data.author)
+    formData.append('authorImg', data.authorImg)
+    formData.append('image', image)
+
+    const response = await axios.post('/api/blog', formData)
+
+    if (response.data.success) {
+      toast.success(response.data.msg)
+      setImage(false)
+      setData({
+        title: "",
+        description: "",
+        category: "Startup",
+        author: "Zhang Jia Hui",
+        authorImg: "/author_img.png"
+      })
+    } else {
+      toast.error("Error!!!")
+    }
+  }
+
   return (
     <div>
-      <form className='py-5 px-5 w-full'>
+      <form onSubmit={onSubmitHandler} className='py-5 px-5 w-full'>
         <h1 className='text-2xl font-medium'>Upload thumbnails</h1>
 
         <div className='flex flex-col my-5 w-full'>

@@ -17,10 +17,8 @@ export default function Home() {
         <button className="border-1 border-black py-4 px-4 sm:px-8 active:bg-gray-600 active:text-white">Subscribe</button>
       </form>
 
-      <BlogList />
-
       <div className="md:px-10 lg:px-20">
-        <BlogItem />
+        <BlogList />
       </div>
     </div>
   );
